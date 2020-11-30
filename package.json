@@ -1,0 +1,22 @@
+{
+  "name": "smallcase",
+  "version": "1.0.0",
+  "description": "Smallcase backend assignment",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "Aneesh Jain",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.10.16",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+
+  "engines": {"node": "12.16.1"}
+}
