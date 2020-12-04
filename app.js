@@ -23,6 +23,7 @@ async function connectMongo(){
 }
 
 app.use( (req, res, next) => {
+  /** Allow request from all origins CORS for public REST API */
   
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers",

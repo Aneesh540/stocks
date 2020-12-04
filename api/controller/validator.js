@@ -1,3 +1,11 @@
+/* RequestValidator validate that incoming request have correct format
+check all fields are present and their types
+
+execute_trade() -> called from trades.execute_trade()
+remove_trade() -> called from trades.remove_trade()
+update_trade() -> called from trades.update_request()
+*/
+
 class RequestValidator {
 
     static execute_trade(data){

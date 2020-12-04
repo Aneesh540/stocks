@@ -4,6 +4,11 @@ const db = require('../models/db.js');
 
 
 async function execute_trade(req, res, next){
+    /* Validate the request (RequestValidator)
+        refine the request for correct data types
+        Logic to perform different validation checks whether request can proceed 
+        (according to request type is "buy" or "sell" we have different logic)
+        call database function to update/save into database */
 
     let data = req.body;
     let validator = RequestValidator.execute_trade(data);
@@ -76,6 +81,14 @@ async function execute_trade(req, res, next){
 }
 
 async function update_trade(req, res, next){
+    /* Validate the request (RequestValidator)
+        refine the request for correct data types
+        Logic to perform different validation checks whether request can proceed
+        1. Check whether request is valid (quantity not going into negative etc. )
+        2. loop over all the trades in (trade_history) of particlar security and calculate new quantity available, new average and other parametrs
+
+        call database function to update/save the information into database */
+
 
     let data = req.body;
     let validator = RequestValidator.update_trade(data);
@@ -190,6 +203,15 @@ async function update_trade(req, res, next){
 }
 
 async function remove_trade(req, res, next){
+     /* Validate the request (RequestValidator)
+        refine the request for correct data types
+        Logic to perform different validation checks whether request can proceed
+        1. Check whether request is valid (quantity not going into negative etc. )
+        2. loop over all the trades in (trade_history) of particlar security and calculate new quantity available, new average and other parametrs
+        3. if quantity availabe is going into negative we cannot perform the delete request, hence rejected
+        call database function to update/save the information into database */
+
+
     let data = req.body;
     let validator = RequestValidator.remove_trade(data);
 
@@ -247,54 +269,6 @@ async function remove_trade(req, res, next){
     let result = await db.deleteSingleTrade(stock, new_quantity, new_average, delete_index);
     return res.status(result.status).send(result);
     
-    
-
-
-
-    
-
-    // if(trade.order_type === 'buy'){ // if we delete 'buy' we have to sell that quantity if available to reverse effect
-    //     if(stock.available >= trade.quantity){
-    //         let new_available = stock.available - trade.quantity;
-    //         let new_average_price;
-
-    //         if(new_available === 0)
-    //             new_average_price = 0;
-            
-    //         else
-    //             new_average_price = (stock.average_price*stock.available - trade.price*trade.quantity)/new_available;
-            
-    //             let result = await db.deleteSingleTrade(stock, new_available, new_average_price, delete_index);
-            
-    //         if(result.status === 200)
-    //             return res.status(200).send({status : 200, data: result.data});
-            
-    //         else
-    //             return res.status(result.status).send(result);
-
-    //     }
-
-    //     else{
-    //         return res.status(400).send({status : 400, 
-    //             msg : "Cannot delete available quantity less than required"});
-    //     }
-
-    // }
-
-    // else{ // order_type == 'sell', then we have to 'buy' that stock to reverse the effect
-    //     let new_available = stock.available + trade.quantity;
-    //     let new_average_price = stock.average_price;
-
-    //     let result = await db.deleteSingleTrade(stock, new_available, new_average_price, delete_index);
-
-    //     if(result.status === 200)
-    //         return res.status(200).send(result);
-
-    //     else
-    //         return res.status(result.status).send(result);
-
-    // }
-
 
 
 }
